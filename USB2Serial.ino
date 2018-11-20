@@ -1,3 +1,30 @@
+/*
+Source: https://petervanhoyweghen.wordpress.com/2012/11/08/using-the-leonardo-as-usb-to-serial-converter/
+
+Software: https://github.com/arduino/Arduino/pull/3343#issuecomment-115045979
+
+*/
+/*
+Target processor      Pin                           Serial to usb converter
+(Atmega 328p)         Header                        (Leonardo)
+GND   ---------------|1|--------------------------- GND
+                     |2|
+5V    <--------------|3|--------------------------- 5V
+RX    <--- 1K -------|4|--------------------------- TX
+TX    ---- 1K -------|5|--------------------------> RX
+RESET <----||--------|6|--------------------------- DTR_PIN (here pin 4)
+  |       100nF
+ 10K
+  |
+ 5V
+
+ For my easypirmultisensor (https://forum.mysensors.org/topic/9130/easy-pir-multisensors-box/22):
+ RESET --- 10k ---||------|6|------- DTR_PIN (pin 4)
+                 100nF
+ */
+
+
+
 /* USB to Serial - Teensy becomes a USB to Serial converter
    http://dorkbotpdx.org/blog/paul/teensy_as_benito_at_57600_baud
 
@@ -9,7 +36,9 @@
 // set this to the hardware serial port you wish to use
 #define HWSERIAL Serial1
 
-unsigned long baud = 115200; // 9600 19200 115200
+unsigned long baud = 115200
+; // 9600 19200 57600 115200
+unsigned long baud_usb = 115200;
 const int reset_pin = 4;
 const int led_pin = 13;  // 13 = Teensy 3.X & LC
                          // 11 = Teensy 2.0
@@ -20,7 +49,7 @@ void setup()
   digitalWrite(led_pin, LOW);
   digitalWrite(reset_pin, HIGH);
   pinMode(reset_pin, OUTPUT);
-  Serial.begin(baud);       // USB, communication to PC or Mac
+  Serial.begin(baud_usb);       // USB, communication to PC or Mac
   HWSERIAL.begin(baud);     // communication to hardware serial
 }
 
