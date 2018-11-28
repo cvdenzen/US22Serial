@@ -21,7 +21,7 @@ RESET <----||--------|6|--------------------------- DTR_PIN (here pin 4)
  For my easypirmultisensor (https://forum.mysensors.org/topic/9130/easy-pir-multisensors-box/22):
  RESET --- 10k ---||------|6|------- DTR_PIN (pin 4)
                  100nF
-
+The 10k resistor in reset line is too high. Should be a few hundreds ohms.
 In Arduino IDE use port /dev/ttyACM0 (Arduino Leonardo) to download the sketch to the target (e.g. a multisensor mysensors)
  */
 
